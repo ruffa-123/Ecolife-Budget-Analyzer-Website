@@ -9,33 +9,36 @@
 :root{
   --accent:#4CAF50;
   --accent-2:#2b8a4a;
-  --bg:#0a0c0a;
+  --bg:#E8F5E9; /* Updated eco-friendly background color */
   --card:#ffffff;
   --shadow: 0 8px 20px rgba(16,24,40,0.08);
   --muted:#6b7280;
+  --text-dark:#333333;
 }
 
 body{
   margin:0;
   font-family:Inter, sans-serif;
-  color:white;
+  color:var(--text-dark);
 
-  /* 🌿 BACKGROUND IMAGE */
-  background: url("image/eco.png") no-repeat center center fixed;
-  background-size: cover;
+  /* Solid background color */
+  background-color: var(--bg);
 }
 
 /* FORM CARD */
 .form-card{
   background:var(--card);
-  color:black;
+  color:var(--text-dark);
   max-width:420px;
   margin:80px auto;
   padding:32px;
   border-radius:14px;
   box-shadow:var(--shadow);
 }
-.form-card h2{text-align:center;margin-bottom:10px;}
+.form-card h2{
+  text-align:center;
+  margin-bottom:10px;
+}
 
 input{
   width:100%;
@@ -43,6 +46,7 @@ input{
   margin:10px 0 18px;
   border-radius:8px;
   border:1px solid #ccc;
+  font-size:16px;
 }
 
 .btn{
@@ -53,17 +57,30 @@ input{
   background:var(--accent);
   font-weight:700;
   cursor:pointer;
+  color:white;
+  font-size:16px;
 }
-.btn:hover{background:var(--accent-2);}
+.btn:hover{
+  background:var(--accent-2);
+}
 
-.center{text-align:center;}
-.center a{color:var(--accent);font-weight:700;text-decoration:none;}
+.center{
+  text-align:center;
+}
+.center a{
+  color:var(--accent);
+  font-weight:700;
+  text-decoration:none;
+}
+.center a:hover{
+  text-decoration:underline;
+}
 </style>
 </head>
 
 <body>
 
-<!-- REGISTER FORM ONLY (Header removed) -->
+<!-- REGISTER FORM ONLY -->
 <div class="form-card">
   <h2>Create Account</h2>
 
