@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Features — Eco Life Budget Analyzer</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #1f8a3a;
+      color: #ffffff;
+    }
+
+    .wrap {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    /* HEADER FIXED */
+    .site-header {
+      background: #16682b;
+      padding: 15px 0;
+    }
+
+    .wrap-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .brand img {
+      margin-right: 10px;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 12px;
+    }
+
+    .main-nav .nav-link {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .main-nav .nav-link:hover {
+      background: #0d4f1d;
+    }
+
+    /* TITLE & TEXT */
+    h1 {
+      margin-top: 40px;
+      font-size: 2.5rem;
+      color: #fff;
+    }
+    .lead {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #e8ffe8;
+    }
+
+    /* FEATURE LIST */
+    .feature-list {
+      margin-top: 30px;
+    }
+
+    .feature-row {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    .feature-row:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
+
+    .feature-row img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .feature-row h3 {
+      color: #fff;
+      margin-top: 0;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: #145a25;
+      color: #d7ffd7;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- FIXED HEADER -->
+  <header class="site-header">
+    <div class="wrap wrap-header">
+      <a class="brand" href="index.html">
+        <img src="https://img.icons8.com/ios-filled/48/ffffff/leaf.png" alt="Eco Logo">
+        <span>Eco Life Budget Analyzer</span>
+      </a>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About SDG11</a>
+        <a href="features.html" class="nav-link">Features</a>
+        <a href="planner.html" class="nav-link">Planner</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a class="nav-link" href="logout.html">Logout</a>
+
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap content">
+    <h1>Features</h1>
+    <p class="lead">Tools designed to guide sustainable financial choices for city dwellers and community groups.</p>
+
+    <section class="feature-list">
+      <article class="feature-row">
+        <div class="feature-icon">
+          <img src="https://www.freeiconspng.com/uploads/idea-icon-24.png" alt="">
+        </div>
+        <div>
+          <h3>Eco-Score</h3>
+          <p>A simple score (0–100) that summarizes how aligned your spending is with sustainable urban living.</p>
+        </div>
+      </article>
+
+      <article class="feature-row">
+        <div class="feature-icon">
+          <img src="https://static.vecteezy.com/system/resources/previews/000/349/969/original/vector-checklist-icon.jpg" alt="">
+        </div>
+        <div>
+          <h3>Category Guidance</h3>
+          <p>Each category includes SDG11-based suggestions to help reduce waste and improve sustainability.</p>
+        </div>
+      </article>
+
+      <article class="feature-row">
+        <div class="feature-icon">
+          <img src="https://static.vecteezy.com/system/resources/previews/004/999/434/non_2x/graph-chart-icon-symbol-of-business-free-vector.jpg" alt="">
+        </div>
+        <div>
+          <h3>Reports & Trends</h3>
+          <p>Track how your choices reduce waste and lower carbon impact over time.</p>
+        </div>
+      </article>
+
+      <article class="feature-row">
+        <div class="feature-icon">
+          <img src="https://icon-library.com/images/group-icon-png/group-icon-png-7.jpg" alt="">
+        </div>
+        <div>
+          <h3>Community Budget Templates</h3>
+          <p>Templates for community gardens, clean-up drives, mobility projects, and group sustainability efforts.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="muted">© 2025 Eco Life Budget Analyzer — aligned with SDG 11</p>
+    </div>
+  </footer>
+
+  <script>
+    console.log("Features Page Loaded Successfully!");
+  </script>
+
+</body>
+</html>

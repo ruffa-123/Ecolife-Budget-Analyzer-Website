@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Eco Life Budget Analyzer</title>
+
+  <style>
+
+:root{
+  --sdg-green:#2E8B57;
+  --accent:#4CAF50;
+  --accent-2:#2b8a4a;
+  --muted:#6b7280;
+  --bg:#0a0c0a;
+  --card:#ffffff;
+  --max-width:1100px;
+  --shadow: 0 8px 20px rgba(16,24,40,0.08);
+  --danger:#e53e3e;
+
+  /* original page vars */
+  --panel-bg: #0c0c0c;
+  --card-bg: #ffffff;
+  --green:#2ea043;
+  --green-dark:#1f8a3a;
+  --radius:14px;
+  --card-padding:28px;
+  --font-sans: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:var(--font-sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body{background:linear-gradient(180deg,#050504 0%, #0b0b0b 100%);color:#fff;}
+
+/* ===========================
+   HEADER / NAV
+=========================== */
+.site-header{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  position:sticky;
+  top:0;
+  z-index:40;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+.header-wrap{
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;}
+.brand img{width:32px;height:32px;}
+.brand span{font-weight:700;font-size:1.05rem;}
+.main-nav{display:flex;gap:10px;}
+.nav-link{
+  color:rgba(255,255,255,0.95);
+  padding:8px 10px;border-radius:8px;font-weight:600;text-decoration:none;
+}
+.nav-link:hover{background:rgba(255,255,255,0.12);}
+
+/* ===========================
+   HERO
+=========================== */
+.hero{
+  padding:30px 0 18px;
+  color:white;
+}
+.hero .hero-inner{
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+.hero-text h1{margin:0;font-size:1.25rem;}
+.hero-text p{margin:6px 0 0;font-size:0.95rem;opacity:0.95;}
+
+/* ===========================
+   PAGE LAYOUT
+=========================== */
+.wrap{
+  max-width:var(--max-width);
+  margin:18px auto 48px;
+  padding:0 20px;
+}
+
+/* Left card (budget form) */
+.card{
+  background:var(--card-bg);
+  color:#0b0b0b;
+  border-radius:var(--radius);
+  padding:var(--card-padding);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  width:640px;
+}
+.card h2{margin:0 0 12px 0;font-size:18px;}
+label{display:block;font-size:13px;color:#3b3b3b;margin-bottom:8px;}
+.input, .select {
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid #e6e6e6;
+  font-size:14px;
+  box-sizing:border-box;
+  outline:none;
+  transition:box-shadow .12s ease;
+  background:transparent;
+}
+.input:focus, .select:focus { box-shadow: 0 0 0 3px rgba(46,160,67,0.12); border-color:var(--green-dark); }
+.muted { color:#9aa3a0; font-size:13px; margin-bottom:8px; }
+
+.row{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
+.amount{width:170px;}
+.category{flex:1;max-width:260px;}
+.remove-btn{background:transparent;border:0;color:var(--danger);font-size:18px;cursor:pointer;padding:6px;}
+.controls{margin-top:18px;display:flex;gap:12px;align-items:center;}
+.btn{padding:10px 16px;border-radius:10px;border:0;cursor:pointer;font-weight:600;box-shadow:0 6px 0 rgba(0,0,0,0.08);}
+.btn-green{background:var(--green);color:white;}
+.btn-outline{background:transparent;color:var(--green-dark);border:1px solid rgba(31,138,58,0.12);}
+.btn-clear{background:#e6f4ea;color:var(--green-dark);}
+.add-expense{display:inline-flex;align-items:center;gap:8px;margin:14px 0;padding:8px 12px;background: #1c7b34;color:#fff;border-radius:10px;cursor:pointer;border:0;font-weight:600;}
+
+/* Two-column layout: left form + right summary */
+.page-grid{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;}
+.summary{flex:1;min-width:260px;background:transparent;}
+.summary-card{
+  background:rgba(255,255,255,0.04);
+  color:#dfeee8;
+  border-radius:12px;
+  padding:18px;
+  height:auto;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  border:1px solid rgba(255,255,255,0.02);
+}
+.summary-card h3{ margin-top:0; color:#cfead6; }
+.summary-row{ display:flex; justify-content:space-between; padding:8px 0; opacity:0.95; }
+.big { font-size:20px; font-weight:700; }
+.score { margin-top:18px;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(46,160,67,0.12), rgba(46,160,67,0.04));text-align:center;}
+.expense-list{ margin-top:8px; }
+
+/* small helper */
+.tiny { font-size:12px; color:var(--muted); }
+
+/* responsive */
+@media (max-width:900px){
+  .page-grid{flex-direction:column;}
+  .card{width:100%;}
+  .main-nav{display:none;}
+  .hero .hero-inner{flex-direction:column;align-items:flex-start;gap:12px;}
+}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER / NAV -->
+  <header class="site-header">
+    <div class="header-wrap">
+      <a class="brand" href="index.html">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/leaf.png" alt="Eco logo">
+        <span>Eco Life Budget Analyzer</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About SDG11</a>
+        <a href="features.html" class="nav-link">Features</a>
+        <a href="planner.html" class="nav-link">Planner</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a class="nav-link" href="logout.html">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" aria-hidden="false">
+    <div class="hero-inner">
+      <div class="hero-text" style="max-width:var(--max-width);margin:0 auto;padding:0 20px;">
+        <h1>Plan sustainable city living — costs, choices, and impact</h1>
+        <p>Compare conventional vs sustainable monthly costs and simulated emissions. Aligned with SDG 11.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="wrap">
+    <div class="page-grid">
+      <section class="card" aria-label="Budget form">
+        <h2>Enter your income and categorize expenses. The Eco-Score shows how sustainable your spending is.</h2>
+
+        <div style="margin-top:16px;">
+          <label for="planName">Plan name</label>
+          <input id="planName" class="input" placeholder="e.g., August family plan" />
+        </div>
+
+        <div style="margin-top:12px;">
+          <label for="income">Monthly income (₱)</label>
+          <input id="income" type="number" min="0" step="0.01" class="input" value="0.00" />
+        </div>
+
+        <div style="margin-top:18px;">
+          <label>Expenses (₱)</label>
+          <div id="expensesContainer">
+          </div>
+
+          <button id="addExpense" class="add-expense" type="button">+ Add expense</button>
+
+          <div class="controls">
+            <button id="calcBtn" class="btn btn-green">Calculate</button>
+            <button id="clearBtn" class="btn btn-clear" type="button">Clear</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="summary" aria-label="Summary">
+        <div class="summary-card">
+          <h3>Summary</h3>
+          <div class="summary-row"><div class="tiny">Income:</div><div id="sumIncome" class="big">₱ 0.00</div></div>
+          <div class="summary-row"><div class="tiny">Total expenses:</div><div id="sumExpenses" class="big">₱ 0.00</div></div>
+          <div class="summary-row"><div class="tiny">Remaining:</div><div id="sumRemaining" class="big">₱ 0.00</div></div>
+
+          <div class="score" id="ecoScoreBlock">
+            <div class="tiny">Eco-Score</div>
+            <div id="ecoScore" class="big">—</div>
+            <div id="ecoDesc" class="tiny" style="margin-top:6px;">Categorize expenses to get a score</div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <div class="tiny">Expense breakdown</div>
+            <div id="breakdown" class="expense-list tiny">—</div>
+          </div>
+
+          <!-- Pie chart -->
+          <div style="margin-top:18px;">
+            <canvas id="expenseChart" width="260" height="260"></canvas>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="max-width:var(--max-width);margin:28px auto;padding:20px;color:#cfeee3;">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;">
+      <div>
+        <strong>Eco Life</strong>
+        <div style="color:var(--muted);font-size:13px;">Smart budgeting for greener, more sustainable cities.</div>
+      </div>
+      <div style="color:var(--muted);font-size:13px;">© 2025 Eco Life Budget Analyzer — aligned with SDG 11</div>
+    </div>
+  </footer>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- SCRIPT -->
+  <script>
+    const categories = [
+      {id:'transport', label:'Transport (High impact)', factor: 0.2},
+      {id:'food', label:'Food & Grocery (Neutral)', factor: 0.6},
+      {id:'utilities', label:'Utilities (Neutral)', factor:0.5},
+      {id:'housing', label:'Housing (Neutral)', factor:0.6},
+      {id:'entertain', label:'Entertainment (Low impact)', factor:0.8},
+      {id:'products', label:'Products & Shopping (High impact)', factor:0.3},
+      {id:'other', label:'Other (Neutral)', factor:0.5},
+    ];
+
+    const expensesContainer = document.getElementById('expensesContainer');
+    const addBtn = document.getElementById('addExpense');
+    const calcBtn = document.getElementById('calcBtn');
+    const clearBtn = document.getElementById('clearBtn');
+
+    function fmt(num){ return '₱ ' + Number(num || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+    function makeExpenseRow(amountVal = 0, catId = 'food'){
+      const row = document.createElement('div');
+      row.className = 'row';
+
+      const box = document.createElement('div');
+      box.style.width = '26px'; box.style.height = '26px';
+      box.style.borderRadius = '6px';
+      box.style.border = '1px solid #e6e6e6';
+      box.style.background = '#fff';
+      box.style.flex = '0 0 26px';
+      row.appendChild(box);
+
+      const amt = document.createElement('input');
+      amt.type = 'number';
+      amt.min = '0';
+      amt.step = '0.01';
+      amt.value = amountVal;
+      amt.className = 'input amount';
+      amt.setAttribute('aria-label','Expense amount');
+      row.appendChild(amt);
+
+      const sel = document.createElement('select');
+      sel.className = 'input select category';
+      sel.setAttribute('aria-label','Expense category');
+      categories.forEach(c=>{
+        const o = document.createElement('option');
+        o.value = c.id;
+        o.textContent = c.label;
+        sel.appendChild(o);
+      });
+      sel.value = catId;
+      row.appendChild(sel);
+
+      const rem = document.createElement('button');
+      rem.className = 'remove-btn';
+      rem.type = 'button';
+      rem.innerHTML = '&times;';
+      rem.title = 'Remove expense';
+      rem.addEventListener('click', () => row.remove());
+      row.appendChild(rem);
+
+      return row;
+    }
+
+    expensesContainer.appendChild(makeExpenseRow(0,'food'));
+
+    addBtn.addEventListener('click', () => {
+      expensesContainer.appendChild(makeExpenseRow(0,'other'));
+      expensesContainer.lastChild.scrollIntoView({behavior:'smooth', block:'nearest'});
+    });
+
+    clearBtn.addEventListener('click', () => {
+      document.getElementById('planName').value = '';
+      document.getElementById('income').value = 0;
+      expensesContainer.innerHTML = '';
+      expensesContainer.appendChild(makeExpenseRow(0,'food'));
+      updateSummary(0,0,0, null);
+    });
+
+    function computeEcoScore(expenses){
+      const total = expenses.reduce((s,e)=>s+e.amount, 0) || 0;
+      if(total === 0) return {scoreText:'—', numeric:null, desc:'No expenses entered'};
+
+      let weighted = 0;
+      expenses.forEach(e=>{
+        const cat = categories.find(c=>c.id===e.category) || {factor:0.5};
+        weighted += e.amount * (cat.factor || 0.5);
+      });
+
+      const raw = (weighted / total) * 100;
+      const num = Math.round(raw);
+
+      let desc = 'Needs improvement';
+      if(num >= 80) desc = 'Excellent — very sustainable';
+      else if(num >= 60) desc = 'Good — mostly sustainable';
+      else if(num >= 40) desc = 'Mixed — some high-impact spending';
+      else desc = 'Low — consider greener alternatives';
+
+      return {scoreText: num + '/100', numeric: num, desc};
+    }
+
+    function gatherExpenses(){
+      const rows = Array.from(expensesContainer.querySelectorAll('.row'));
+      return rows.map(r=>{
+        const amt = parseFloat(r.querySelector('input[type="number"]').value) || 0;
+        const cat = r.querySelector('select').value;
+        return {amount: amt, category: cat};
+      }).filter(x=>x.amount > 0);
+    }
+
+    // Chart.js
+    let chartInstance = null;
+    function updatePieChart(expenses){
+      const ctx = document.getElementById('expenseChart').getContext('2d');
+      const breakdown = {};
+      expenses.forEach(e=>{ breakdown[e.category] = (breakdown[e.category] || 0) + e.amount; });
+
+      const labels = [], data = [], backgroundColors = [];
+      for(const k in breakdown){
+        const c = categories.find(x=>x.id===k) || {label:k, factor:0.5};
+        labels.push(c.label.split(' (')[0]);
+        data.push(breakdown[k]);
+        backgroundColors.push(`hsl(${Math.floor(Math.random()*360)}, 70%, 50%)`);
+      }
+
+      if(chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: { labels, datasets:[{ data, backgroundColor: backgroundColors, borderWidth:1 }] },
+        options: { responsive:true, plugins:{ legend:{ position:'bottom', labels:{color:'#dfeee8'} } } }
+      });
+    }
+
+    function updateSummary(income, totalExpenses, remaining, ecoRes){
+      document.getElementById('sumIncome').textContent = fmt(income);
+      document.getElementById('sumExpenses').textContent = fmt(totalExpenses);
+      document.getElementById('sumRemaining').textContent = fmt(remaining);
+
+      const ecoScoreEl = document.getElementById('ecoScore');
+      const ecoDescEl = document.getElementById('ecoDesc');
+      if(ecoRes && ecoRes.numeric !== null){
+        ecoScoreEl.textContent = ecoRes.scoreText;
+        ecoDescEl.textContent = ecoRes.desc;
+      } else {
+       
+        ecoScoreEl.textContent = '—';
+        ecoDescEl.textContent = 'Categorize expenses to get a score';
+      }
+
+      // breakdown by category
+      const breakdownEl = document.getElementById('breakdown');
+      const expensesList = gatherExpenses();
+      const breakdown = {};
+      expensesList.forEach(e=>{ breakdown[e.category] = (breakdown[e.category] || 0) + e.amount; });
+
+      if(Object.keys(breakdown).length === 0){
+        breakdownEl.textContent = '—';
+      } else {
+        breakdownEl.innerHTML = '';
+        for(const k in breakdown){
+          const c = categories.find(x=>x.id===k) || {label:k};
+          const line = document.createElement('div');
+          line.style.marginTop = '6px';
+          line.textContent = `${c.label.split(' (')[0]}: ${fmt(breakdown[k])}`;
+          breakdownEl.appendChild(line);
+        }
+      }
+
+      // update pie chart
+      updatePieChart(expensesList);
+    }
+
+    calcBtn.addEventListener('click', () => {
+      const income = parseFloat(document.getElementById('income').value) || 0;
+      const expenses = gatherExpenses();
+      const totalExpenses = expenses.reduce((s,e)=>s+e.amount, 0);
+      const remaining = income - totalExpenses;
+      const eco = computeEcoScore(expenses);
+      updateSummary(income, totalExpenses, remaining, eco);
+    });
+
+    // initial empty summary
+    updateSummary(0,0,0,null);
+  </script>
+</body>
+</html>
