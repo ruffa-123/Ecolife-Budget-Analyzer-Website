@@ -180,7 +180,6 @@ body{
   box-shadow:var(--shadow);
 }
 
-/* Make ASIDE text black */
 aside.panel,
 aside.panel h3,
 aside.panel h4,
@@ -304,3 +303,4 @@ input[type=text], input[type=number], textarea, select{
   .contact-grid{grid-template-columns:1fr;}
   .footer-grid{grid-template-columns:1fr;}
 }
+
